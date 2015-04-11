@@ -1,0 +1,27 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class words {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		String q = "how are you";
+
+		String[] aa=(String[]) q.split(" ");
+		Map ll = new HashMap();
+		ll.put("!", "!");
+		ll.put(",", ",");
+		for(int i = aa.length ;i>0 ;i--){
+			String w = aa[i-1];
+			String e = w.substring(aa[i-1].length()-1);
+			
+			if (ll.containsKey(e)){
+				w=e+w.substring(0, aa[i-1].length()-1);
+			}
+			System.out.print(w+" ");
+		}
+	}
+}
