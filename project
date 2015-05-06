@@ -1,0 +1,140 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define YES           1
+#define NO            0
+#define NUM_PROBLEM   10 //题目的数量
+#define LIMIT_ADDSUB  100   //加法和减法操作数的上限
+#define LIMIT_MULDIV  20    //乘法和除法操作数的上限
+
+int expressionCount = 0;
+struct expression
+{
+ int num1;
+ int num2;
+ char op;
+}expr[NUM_PROBLEM];
+
+int createProblem(void);
+int createAddProblem(void);
+int createSubProblem(void);
+int createMulProblem(void);
+int createDivProblem(void);
+int expressionExist(int num1, int num2, char op);
+
+int main()
+{
+ int i, answer, result;
+ float score;
+
+srand((unsigned)time(NULL));
+ score = 0.0;
+ for (i = 1; i <= NUM_PROBLEM; ++i)
+ {
+  printf("第%2d题: ", i);
+  result = createProblem();
+  scanf("%d", &answer);
+  getchar();
+  if (result == answer)
+   score += 100.0/NUM_PROBLEM;
+ }
+ printf("Final Score:%.0f\n", score);
+
+return 0;}
+int createProblem(void)
+{
+ char op;
+ int result;
+
+op = rand()%4+1;
+ switch (op)
+ {
+  case 1:  //加法
+   result = createAddProblem();
+   break;
+  case 2:  //减法
+   result = createSubProblem();
+   break;
+  case 3:  //乘法
+   result = createMulProblem();
+   break;
+  case 4:  //除法
+   result = createDivProblem();
+   break;
+  default:
+   exit(1);
+ }
+
+return result;}
+int createAddProblem(void)
+{
+ int num1, num2;
+
+do
+ {
+  num1 = rand()%LIMIT_ADDSUB+1;
+  num2 = rand()%LIMIT_ADDSUB+1;
+ } while (expressionExist(num1, num2, '+'));
+ printf("%3d + %3d = ", num1, num2);
+
+return (num1+num2);}
+int createSubProblem(void)
+{
+ int num1, num2, temp;
+
+do
+ {
+  num1 = rand()%LIMIT_ADDSUB+1;
+  num2 = rand()%LIMIT_ADDSUB+1;
+  if (num1 < num2)
+  {
+   temp = num1;
+   num1 = num2;
+   num2 = temp;
+  }
+ } while (expressionExist(num1, num2, '-'));
+ printf("%3d - %3d = ", num1, num2);
+
+return (num1-num2);}
+int createMulProblem(void)
+{
+ int num1, num2;
+
+do
+ {
+  num1 = rand()%LIMIT_MULDIV+1;
+  num2 = rand()%LIMIT_MULDIV+1;
+ } while (expressionExist(num1, num2, '*'));
+ printf("%3d * %3d = ", num1, num2);
+
+return (num1*num2);}
+int createDivProblem(void)
+{
+ int num1, num2;
+
+do
+ {
+  num1 = rand()%LIMIT_MULDIV+1;
+  num2 = rand()%LIMIT_MULDIV+1;
+ } while (expressionExist(num1, num2, '/'));
+ printf("%3d / %3d = ", num1*num2, num1);
+
+return num2;}
+int expressionExist(int num1, int num2, char op)
+{
+ int i;
+ 
+ for (i = 0; i < expressionCount; ++i)
+ {
+  if (expr[i].num1 == num1 && expr[i].num2 == num2 && expr[i].op == op)
+   return YES;
+ }
+
+expr[i].num1 = num1;
+ expr[i].num2 = num2;
+ expr[i].op = op;
+ ++expressionCount;
+
+return NO;
+}
